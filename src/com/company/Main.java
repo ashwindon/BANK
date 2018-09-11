@@ -7,10 +7,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class Main {
 
-    private static void swing_without_panel()
+    public static void swing_without_panel()
     {
         JFrame frame;
         frame=new JFrame("BANK");
@@ -37,28 +40,28 @@ public class Main {
         p4.setBounds(0,350,700,350);
 
         p1.setOpaque(true);
-        p1.setBackground(new Color(0,0,0,100));
-        p2.setBackground(new Color(0,0,0,100));
+        p1.setBackground(new Color(0,0,0,75));
+        p2.setBackground(new Color(0,0,0,75));
         p4.setBackground(Color.green);
 
         ACCNO = new JLabel("ACCOUNT NO");
-        ACCNO.setForeground(new Color(169,169,169));
+        ACCNO.setForeground(new Color(0,0,0));
         ACCNO.setBounds(50,100,150,50);
 
 
         password = new JLabel("PASSWORD");
-        password.setForeground(Color.red);
+        password.setForeground(Color.black);
         password.setBounds(50,170,150,50);
 
 
         user = new JTextField(10);
         user.setBounds(200,100,150,50);
-        user.setBackground(new Color(255,255,255,40));
+       // user.setBackground(new Color(255,255,255,0));
 
 
         JPasswordField pass = new JPasswordField(10);
         pass.setBounds(200,170,150,50);
-        pass.setBackground(new Color(255,255,255,40));
+        //pass.setBackground(new Color(255,255,255,0));
 
 
         JButton button = new JButton("GO");
@@ -70,33 +73,27 @@ public class Main {
         button.setContentAreaFilled(true);
         button.setBounds(150,250,100,30);
 
-        button.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                try{
-                    String s1=user.getText();
-                    String s2=pass.getText();
-                    if(s1.equals("ashwin") && s2.equals("1234"))
-                    {
-                        secondframe se2 = new secondframe();
-                        se2.secondframe();
-                        frame.dispose();
-                    }
-                    else
-                    {
-                        String message = "INCORRECT ACCOUNT NO OR PASSWORD!!";
-                        JOptionPane.showMessageDialog(null, message);
-                    }
-                }
-                catch(Exception ae)
+        button.addActionListener(e -> {
+            try{
+                String s1=user.getText();
+                String s2=pass.getText();
+                System.out.println(s2);
+                if(s1.equals("1234") && s2.equals("1234"))
                 {
-                    ae.printStackTrace();
+                    thirdframe te2 = new thirdframe();
+                    te2.thirdframe();
+                    frame.dispose();
                 }
-
+                else
+                {
+                    String message = "INCORRECT ACCOUNT NO OR PASSWORD!!";
+                    JOptionPane.showMessageDialog(null, message);
+                }
             }
-
-
+            catch(Exception ae)
+            {
+                ae.printStackTrace();
+            }
 
         });
 
@@ -111,19 +108,18 @@ public class Main {
         b2.setBounds(10,20,280,30);
 
 
-        b2.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
+        b2.addActionListener(e -> {
+            try
             {
-                try
-                {
-                    String m = "CODE YET TO BE WRITTEN!";
-                    JOptionPane.showMessageDialog(null,m);
-                }
-                catch(Exception be)
-                {
-                    be.printStackTrace();
-                }
+                //String m = "CODE YET TO BE WRITTEN!";
+                secondframe se2 = new secondframe();
+                se2.secondframe();
+                frame.dispose();
+                //JOptionPane.showMessageDialog(null,m);
+            }
+            catch(Exception be)
+            {
+                be.printStackTrace();
             }
         });
 
@@ -155,8 +151,8 @@ public class Main {
         p1.add(pass);
         p1.add(button);
         p2.add(b2);
-        JPanel p = new JPanel();
-        
+        //JPanel p = new JPanel();
+
         frame.add(p1);
         frame.add(p2);
         frame.add(p3);
@@ -168,6 +164,19 @@ public class Main {
         frame.setVisible(true);
 
     }
+    public static String generateHash(String pass)
+    {   String hash;
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("SHA-256");
+            hash = md.digest(pass.getBytes(StandardCharsets.UTF_8)).toString();
+        } catch (NoSuchAlgorithmException e) {
+            hash = null;
+            e.printStackTrace();
+        }
+        return hash;
+    }
+
     public static void main(String[] args) {
 	// write your code here
 
