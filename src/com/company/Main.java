@@ -13,7 +13,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class Main {
 
-    public static void swing_without_panel()
+    public static void swing_without_panel()//
     {
         JFrame frame;
         frame=new JFrame("BANK");
